@@ -26,6 +26,7 @@
                 <configuration>
                     <!-- So maven doesn't require web.xml -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputDirectory>/Users/indikagunawardana/Projects/Symbiosis/wildfly-13.0.0.Final/standalone/deployments/</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
