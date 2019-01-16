@@ -21,7 +21,9 @@ public class ServiceDAL {
      * Insert a new service object
      * @param service new service model(auto generated id)
      */
-    public static void addService(Service service) {
+    public static void addService(Service service) throws IllegalArgumentException {
+        service.validate();
+
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
         try {
@@ -51,7 +53,8 @@ public class ServiceDAL {
      * @param service new service model
      * @param updateEmptyFields if true update null and empty fields, otherwise only not null fields
      */
-    public static void updateService(Service service, Boolean updateEmptyFields) {
+    public static void updateService(Service service, Boolean updateEmptyFields) throws IllegalArgumentException {
+        service.validate();
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
         try {
@@ -90,7 +93,11 @@ public class ServiceDAL {
      * Delete a service by service id
      * @param serviceId id of the service
      */
-    public static void deleteService(String serviceId) {
+    public static void deleteService(String serviceId) throws IllegalArgumentException {
+        if (serviceId == null || serviceId.isEmpty()) {
+            throw new IllegalArgumentException("Service id cannot be null or empty");
+        }
+
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
         try {
@@ -112,7 +119,11 @@ public class ServiceDAL {
      * @param serviceId id of the service
      * @return service model
      */
-    public static Service getServiceById(String serviceId) {
+    public static Service getServiceById(String serviceId) throws IllegalArgumentException {
+        if (serviceId == null || serviceId.isEmpty()) {
+            throw new IllegalArgumentException("Service id cannot be null or empty");
+        }
+
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
         Service service = null;
