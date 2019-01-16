@@ -20,4 +20,16 @@ public class Service extends ServiceEntity {
             throw new IllegalArgumentException("Service ID cannot be null or empty");
         }
     }
+
+    /**
+     * Convert service entity to service model
+     *
+     * @param entity
+     */
+    public void convert(ServiceEntity entity) {
+        this.setServiceId(entity.getServiceId());
+        this.setServiceName(entity.getServiceName());
+        this.setServiceUrl(entity.getServiceUrl());
+        this.setJsonFile(entity.getJsonFile());
+    }
 }

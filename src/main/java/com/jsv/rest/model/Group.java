@@ -19,4 +19,14 @@ public class Group extends GroupEntity {
             throw new IllegalArgumentException("Group ID cannot be null or empty");
         }
     }
+
+    /**
+     * Convert group entity to group model
+     *
+     * @param entity
+     */
+    public void convert(GroupEntity entity) {
+        this.setGroupId(entity.getGroupId());
+        this.setGroupName(entity.getGroupName());
+    }
 }

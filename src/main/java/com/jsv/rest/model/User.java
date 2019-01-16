@@ -19,4 +19,15 @@ public class User extends UserEntity {
             throw new IllegalArgumentException("User ID cannot be null or empty");
         }
     }
+
+    /**
+     * Convert an user entity to an user model
+     *
+     * @param entity entity model
+     */
+    public void convert(UserEntity entity) {
+        this.setPassworc(entity.getPassworc());
+        this.setUserId(entity.getUserId());
+        this.setUserName(entity.getUserName());
+    }
 }
