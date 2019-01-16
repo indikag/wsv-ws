@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/wsv</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">12345678</property>
+        <property name="hibernate.connection.pool_size">10</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!-- extra-->
+        <property name="show_sql">true</property>
+        <property name="format_sql">false</property>
+        <property name="use_sql_comments">false</property>
+
+        <mapping resource="com/jsv/rest/entity/GroupEntity.hbm.xml"/>
+        <mapping class="com.jsv.rest.entity.GroupEntity"/>
+        <mapping resource="com/jsv/rest/entity/GroupServiceEntity.hbm.xml"/>
+        <mapping class="com.jsv.rest.entity.GroupServiceEntity"/>
+        <mapping class="com.jsv.rest.entity.ServiceEntity"/>
+        <mapping resource="com/jsv/rest/entity/ServiceEntity.hbm.xml"/>
+        <mapping resource="com/jsv/rest/entity/UserEntity.hbm.xml"/>
+        <mapping class="com.jsv.rest.entity.UserEntity"/>
+        <mapping resource="com/jsv/rest/entity/UserGroupMapEntity.hbm.xml"/>
+        <mapping class="com.jsv.rest.entity.UserGroupMapEntity"/>
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>
