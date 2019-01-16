@@ -6,39 +6,17 @@ package com.jsv.rest.model;
  * Copyright(c) 2018 AXIS, LLC.
  */
 
-import java.util.Objects;
+import com.jsv.rest.entity.UserEntity;
 
-public class User {
-    private String userId;
-    private String userName;
-    private String password;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override public String toString() {
-        return "User{" + "userId='" + userId + '\'' + ", userName='" + userName + '\'' + ", password='" + password
-                + '\'' + '}';
+public class User extends UserEntity {
+    /**
+     * Validate compulsory parameter of the model
+     *
+     * @throws IllegalArgumentException
+     */
+    public void validate() throws IllegalArgumentException {
+        if (this.getUserId() == null || this.getUserId().isEmpty()) {
+            throw new IllegalArgumentException("User ID cannot be null or empty");
+        }
     }
 }

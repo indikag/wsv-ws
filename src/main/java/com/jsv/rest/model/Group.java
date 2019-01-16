@@ -6,27 +6,17 @@ package com.jsv.rest.model;
  * Copyright(c) 2018 AXIS, LLC.
  */
 
-public class Group {
-    private String groupId;
-    private String groupName;
+import com.jsv.rest.entity.GroupEntity;
 
-    public String getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    @Override public String toString() {
-        return "Group{" + "groupId='" + groupId + '\'' + ", groupName='" + groupName + '\'' + '}';
+public class Group extends GroupEntity {
+    /**
+     * Validate compulsory parameter of the model
+     *
+     * @throws IllegalArgumentException
+     */
+    public void validate() throws IllegalArgumentException {
+        if (this.getGroupId() == null || this.getGroupId().isEmpty()) {
+            throw new IllegalArgumentException("Group ID cannot be null or empty");
+        }
     }
 }

@@ -6,46 +6,18 @@ package com.jsv.rest.model;
  * Copyright(c) 2018 AXIS, LLC.
  */
 
-public class Service {
-    private String serviceId;
-    private String serviceName;
-    private String serviceUrl;
-    private String jsonFile;
+import com.jsv.rest.entity.ServiceEntity;
 
-    public String getServiceId() {
-        return serviceId;
-    }
+public class Service extends ServiceEntity {
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
-    }
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public String getServiceUrl() {
-        return serviceUrl;
-    }
-
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
-
-    public String getJsonFile() {
-        return jsonFile;
-    }
-
-    public void setJsonFile(String jsonFile) {
-        this.jsonFile = jsonFile;
-    }
-
-    @Override public String toString() {
-        return "Service{" + "serviceId='" + serviceId + '\'' + ", serviceName='" + serviceName + '\'' + ", serviceUrl='"
-                + serviceUrl + '\'' + ", jsonFile='" + jsonFile + '\'' + '}';
+    /**
+     * Validate compulsory parameter of the model
+     *
+     * @throws IllegalArgumentException
+     */
+    public void validate() throws IllegalArgumentException {
+        if (this.getServiceId() == null || this.getServiceId().isEmpty()) {
+            throw new IllegalArgumentException("Service ID cannot be null or empty");
+        }
     }
 }
