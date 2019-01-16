@@ -12,6 +12,7 @@ import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -144,17 +145,22 @@ public class ServiceDAL {
 
     /**
      * Get all service in the system
+     * @return list of service models
      */
-    public static void getAllServices() {
+    public static ArrayList<Service> getAllServices() {
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
+        ArrayList<Service> serviceList = null;
         try {
             transaction = session.beginTransaction();
             List list = session.createQuery("from ServiceEntity ").list();
             Iterator iterator = list.iterator();
+            serviceList = new ArrayList<Service>();
             while (iterator.hasNext()) {
-                ServiceEntity service = ((ServiceEntity) iterator.next());
-                System.out.println(service.toString());
+                ServiceEntity entity = ((ServiceEntity) iterator.next());
+                Service model = new Service();
+                model.convert(entity);
+                serviceList.add(model);
             }
             transaction.commit();
         } catch (Exception e) {
@@ -164,5 +170,7 @@ public class ServiceDAL {
         } finally {
             session.close();
         }
+
+        return serviceList;
     }
 }
