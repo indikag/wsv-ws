@@ -7,16 +7,18 @@ package com.jsv.rest.util;
  */
 
 import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerator;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-public class IdGenerator implements IdentifierGenerator {
+public class IdGenerator {
 
-    public Serializable generate(SharedSessionContractImplementor session, Object object)
-            throws HibernateException {
+    /**
+     * Generate an unique id
+     *
+     * @return
+     * @throws HibernateException
+     */
+    public static synchronized String generate() throws HibernateException {
         return UUID.randomUUID().toString();
     }
 }
