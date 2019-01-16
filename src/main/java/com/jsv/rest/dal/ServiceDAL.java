@@ -12,7 +12,6 @@ import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,13 +22,12 @@ public class ServiceDAL {
      * @param service new service model(auto generated id)
      */
     public static void addService(Service service) {
-        System.out.println("adding");
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             ServiceEntity entity = new ServiceEntity();
-            //entity.setServiceId(service.getServiceId());
+            entity.setServiceId(service.getServiceId());
             entity.setJsonFile(service.getJsonFile());
             entity.setServiceName(service.getServiceName());
             entity.setServiceUrl(service.getServiceUrl());
