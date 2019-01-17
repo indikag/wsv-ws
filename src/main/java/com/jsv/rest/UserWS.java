@@ -7,13 +7,49 @@ package com.jsv.rest;
  */
 
 import com.jsv.rest.model.User;
+import com.jsv.rest.util.Log;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-@Path("user") public class UserWS {
-    @GET @Path("/getUserByUserId") @Produces("application/json") public User getUserByUserId() {
+@Path("user") @Produces("application/json") public class UserWS {
+    @GET @Path("/get") public User getUserByUserId() {
+        Log.log("Start getUserByUserId");
+        //Body
+
+        Log.log("End getUserByUserId");
         return null;
+    }
+
+    @POST @Path("/login") public boolean login() {
+        Log.log("Start login");
+        boolean success = false;
+        //Body
+
+        Log.log("End login");
+        return success;
+    }
+
+    @POST @Path("/add") public void addUser() {
+        Log.log("Start add");
+        //Body
+
+        Log.log("End add");
+    }
+
+    @POST @Path("/assign") public void assignToAGroup() {
+        Log.log("Start assignToGroup");
+        //Body
+
+        Log.log("End assignToGroup");
+    }
+
+    @POST @Path("/update") public void updateUser() {
+        Log.log("Start updateUser");
+        //Body
+
+        Log.log("End updateUser");
     }
 }
