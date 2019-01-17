@@ -30,4 +30,8 @@ public class User extends UserEntity {
         this.setUserId(entity.getUserId());
         this.setUserName(entity.getUserName());
     }
+
+    @Override public String toString() {
+        return "User{} " + super.toString();
+    }
 }

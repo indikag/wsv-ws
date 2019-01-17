@@ -32,4 +32,8 @@ public class Service extends ServiceEntity {
         this.setServiceUrl(entity.getServiceUrl());
         this.setJsonFile(entity.getJsonFile());
     }
+
+    @Override public String toString() {
+        return "Service{} " + super.toString();
+    }
 }

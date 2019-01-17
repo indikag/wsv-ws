@@ -51,4 +51,8 @@ import javax.persistence.*;
         result = 31 * result + (groupName != null ? groupName.hashCode() : 0);
         return result;
     }
+
+    @Override public String toString() {
+        return "GroupEntity{" + "groupId='" + groupId + '\'' + ", groupName='" + groupName + '\'' + '}';
+    }
 }

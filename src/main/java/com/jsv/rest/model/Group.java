@@ -29,4 +29,8 @@ public class Group extends GroupEntity {
         this.setGroupId(entity.getGroupId());
         this.setGroupName(entity.getGroupName());
     }
+
+    @Override public String toString() {
+        return "Group{} " + super.toString();
+    }
 }

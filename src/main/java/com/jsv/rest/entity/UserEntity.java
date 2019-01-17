@@ -61,4 +61,9 @@ import javax.persistence.*;
         result = 31 * result + (passworc != null ? passworc.hashCode() : 0);
         return result;
     }
+
+    @Override public String toString() {
+        return "UserEntity{" + "userId='" + userId + '\'' + ", userName='" + userName + '\'' + ", passworc='" + passworc
+                + '\'' + '}';
+    }
 }
