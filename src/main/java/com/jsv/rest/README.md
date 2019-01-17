@@ -5,4 +5,4 @@ run "mvn clean package" on "Execute Maven Goal"
 
 Tutorial
 ========
-https://stackoverflow.com/questions/16372374/move-a-text-file-into-target-folder-when-compiling-a-maven-project
+https://stackoverflow.com/questions/16703367/what-is-the-fastest-way-to-stand-up-a-rest-service-using-java
