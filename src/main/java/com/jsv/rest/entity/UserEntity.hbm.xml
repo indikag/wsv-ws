@@ -7,6 +7,6 @@
     <class name="com.jsv.rest.entity.UserEntity" table="user" schema="wsv">
         <id name="userId" column="userId"/>
         <property name="userName" column="userName"/>
-        <property name="passworc" column="passworc"/>
+        <property name="password" column="password"/>
     </class>
 </hibernate-mapping>

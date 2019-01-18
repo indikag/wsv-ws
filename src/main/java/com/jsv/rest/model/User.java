@@ -26,7 +26,7 @@ public class User extends UserEntity {
      * @param entity entity model
      */
     public void convert(UserEntity entity) {
-        this.setPassworc(entity.getPassworc());
+        this.setPassword(entity.getPassword());
         this.setUserId(entity.getUserId());
         this.setUserName(entity.getUserName());
     }

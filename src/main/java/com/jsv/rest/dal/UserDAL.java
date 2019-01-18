@@ -32,7 +32,7 @@ public class UserDAL {
             transaction = session.beginTransaction();
             UserEntity userEntity = new UserEntity();
             userEntity.setUserId(user.getUserId());
-            userEntity.setPassworc(user.getPassworc());
+            userEntity.setPassword(user.getPassword());
             userEntity.setUserName(user.getUserName());
 
             session.save(userEntity);
@@ -63,7 +63,7 @@ public class UserDAL {
             transaction = session.beginTransaction();
             User existingUser = session.get(User.class, user.getUserId());
             if (updateEmptyFields) {
-                existingUser.setPassworc(user.getPassworc());
+                existingUser.setPassword(user.getPassword());
                 existingUser.setUserName(user.getUserName());
 
                 session.update(existingUser);
@@ -71,8 +71,8 @@ public class UserDAL {
                 if (user.getUserName() != null && user.getUserName() != "") {
                     existingUser.setUserName(user.getUserName());
                 }
-                if (user.getPassworc() != null && user.getPassworc() != "") {
-                    existingUser.setPassworc(user.getPassworc());
+                if (user.getPassword() != null && user.getPassword() != "") {
+                    existingUser.setPassword(user.getPassword());
                 }
                 session.update(existingUser);
             }
