@@ -8,6 +8,7 @@ package com.jsv.rest;
 
 import com.jsv.rest.dal.UserDAL;
 import com.jsv.rest.model.User;
+import com.jsv.rest.util.IdGenerator;
 import com.jsv.rest.util.Log;
 import com.jsv.rest.util.Response;
 import com.jsv.rest.util.Status;
@@ -61,11 +62,26 @@ import java.util.List;
         return response;
     }
 
-    @POST @Path("/add") public void addUser() {
+    @POST @Path("/add") public Response addUser(User user) throws IllegalArgumentException {
         Log.log("Start add");
         //Body
+        if (user == null) {
+            throw new IllegalArgumentException("User model is null");
+        }
+        Log.log(user.toString());
+
+        try {
+            user.setUserId(IdGenerator.generate());
+            UserDAL.addUser(user);
+            response.setStatus(Status.SUCCESS);
+            response.setPayload(true);
+        } catch (Exception e) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(true);
+        }
 
         Log.log("End add");
+        return response;
     }
 
     @POST @Path("/assign") public void assignToAGroup() {
