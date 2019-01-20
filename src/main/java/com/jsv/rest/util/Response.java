@@ -10,6 +10,9 @@ public class Response {
     private Status status;
     private Object payload;
 
+    public Response() {
+    }
+
     public Response(Status status, Object payload) {
         this.status = status;
         this.payload = payload;
