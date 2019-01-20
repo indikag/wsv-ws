@@ -9,35 +9,56 @@ package com.jsv.rest;
 import com.jsv.rest.dal.UserDAL;
 import com.jsv.rest.model.User;
 import com.jsv.rest.util.Log;
+import com.jsv.rest.util.Response;
+import com.jsv.rest.util.Status;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 
 @Path("user") @Produces("application/json") public class UserWS {
-    @GET @Path("/get") public User getUserByUserId() {
+    private Response response = new Response();
+
+    @GET @Path("/get") public Response getUserByUserId(@QueryParam("id") String id) {
         Log.log("Start getUserByUserId");
         //Body
+        Log.log("id = " + id);
+        User user = null;
+        try {
+            user = UserDAL.getUserByUserId(id);
+            response.setPayload(user);
+            response.setStatus(Status.SUCCESS);
+        } catch (Exception e) {
+            response.setPayload(user);
+            response.setStatus(Status.APPLICATION_ERROR);
+        }
 
         Log.log("End getUserByUserId");
-        return null;
+        return response;
     }
 
-    @POST @Path("/login") public boolean login(User user) {
+    @POST @Path("/login") public Response login(User user) {
         Log.log("Start login");
         boolean success = false;
         //Body
         Log.log(user.toString());
-        List userList = UserDAL.getUserByUserNameAndPassword(user);
-        Log.log("size=" + userList.size());
-        if (userList != null && !userList.isEmpty()) {
-            success = true;
+        List userList = null;
+        try {
+            userList = UserDAL.getUserByUserNameAndPassword(user);
+            Log.log("size=" + userList.size());
+            if (userList != null && !userList.isEmpty()) {
+                response.setStatus(Status.SUCCESS);
+                response.setPayload(true);
+            } else {
+                response.setStatus(Status.SUCCESS);
+                response.setPayload(false);
+            }
+        } catch (Exception e) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(false);
         }
 
         Log.log("End login");
-        return success;
+        return response;
     }
 
     @POST @Path("/add") public void addUser() {
