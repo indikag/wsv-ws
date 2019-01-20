@@ -11,6 +11,8 @@ import com.jsv.rest.model.User;
 import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.TransactionException;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,11 +40,10 @@ public class UserDAL {
             session.save(userEntity);
             transaction.commit();
         } catch (Exception e) {
-            System.out.println("error");
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new TransactionException(e.getMessage());
         } finally {
             session.close();
         }
@@ -83,6 +84,7 @@ public class UserDAL {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new TransactionException(e.getMessage());
         } finally {
             session.close();
         }
@@ -110,6 +112,7 @@ public class UserDAL {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new TransactionException(e.getMessage());
         } finally {
             session.close();
         }
@@ -138,6 +141,7 @@ public class UserDAL {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new TransactionException(e.getMessage());
         } finally {
             session.close();
         }
@@ -170,10 +174,56 @@ public class UserDAL {
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new TransactionException(e.getMessage());
         } finally {
             session.close();
         }
 
         return userList;
+    }
+
+    /**
+     * Get user by user name and password
+     *
+     * @param user user model
+     * @return user list
+     * @throws IllegalArgumentException
+     * @throws TransactionException
+     */
+    public static List getUserByUserNameAndPassword(User user) throws IllegalArgumentException, TransactionException {
+        if (user == null) {
+            throw new IllegalArgumentException("User model is null");
+        }
+
+        if (user.getUserName() == null || user.getUserName().isEmpty()) {
+            throw new IllegalArgumentException("User name is null or empty");
+        }
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Password is null or empty");
+        }
+        Session session = SessionUtil.getSession();
+        Transaction transaction = null;
+        List list = null;
+        try {
+            transaction = session.beginTransaction();
+            //execute the query here
+            String hql = "From UserEntity U WHERE U.userName=:user_name AND U.password=:password";
+            Query query = session.createQuery(hql);
+            query.setParameter("user_name", user.getUserName());
+            query.setParameter("password", user.getPassword());
+            list = query.list();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new TransactionException(e.getMessage());
+        } finally {
+            session.close();
+        }
+
+        return list;
+
     }
 }
