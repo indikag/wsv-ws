@@ -25,7 +25,7 @@ public class UserDAL {
      * @param user user model
      * @throws IllegalArgumentException
      */
-    public static void addUser(User user) throws IllegalArgumentException {
+    public static void addUser(User user) throws IllegalArgumentException, TransactionException {
         user.validate();
 
         Session session = SessionUtil.getSession();
@@ -56,7 +56,8 @@ public class UserDAL {
      * @param updateEmptyFields
      * @throws IllegalArgumentException
      */
-    public static void updateUser(User user, Boolean updateEmptyFields) throws IllegalArgumentException {
+    public static void updateUser(User user, Boolean updateEmptyFields)
+            throws IllegalArgumentException, TransactionException {
         user.validate();
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
@@ -96,7 +97,7 @@ public class UserDAL {
      * @param userId id of the user
      * @throws IllegalArgumentException
      */
-    public static void deleteUser(String userId) throws IllegalArgumentException {
+    public static void deleteUser(String userId) throws IllegalArgumentException, TransactionException {
         if (userId == null || userId.isEmpty()) {
             throw new IllegalArgumentException("User id cannot be null or empty");
         }
@@ -125,17 +126,18 @@ public class UserDAL {
      * @return user model
      * @throws IllegalArgumentException user id is null or empty
      */
-    public static User getUserByUserId(String userId) throws IllegalArgumentException {
+    public static User getUserByUserId(String userId) throws IllegalArgumentException, TransactionException {
         if (userId == null || userId.isEmpty()) {
             throw new IllegalArgumentException("User id cannot be null or empty");
         }
 
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
-        User user = null;
+        User user = new User();
         try {
             transaction = session.beginTransaction();
-            user = session.get(User.class, userId);
+            UserEntity userEntity = session.get(UserEntity.class, userId);
+            user.convert(userEntity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -154,7 +156,7 @@ public class UserDAL {
      *
      * @return list or user models
      */
-    public static ArrayList<User> getAllUsers() {
+    public static ArrayList<User> getAllUsers() throws TransactionException {
         Session session = SessionUtil.getSession();
         Transaction transaction = null;
         ArrayList<User> userList = null;
