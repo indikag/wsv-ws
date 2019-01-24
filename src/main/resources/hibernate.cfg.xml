@@ -17,16 +17,9 @@
         <property name="format_sql">false</property>
         <property name="use_sql_comments">false</property>
 
-        <mapping resource="com/jsv/rest/entity/GroupEntity.hbm.xml"/>
-        <mapping class="com.jsv.rest.entity.GroupEntity"/>
-        <mapping resource="com/jsv/rest/entity/GroupServiceEntity.hbm.xml"/>
-        <mapping class="com.jsv.rest.entity.GroupServiceEntity"/>
-        <mapping class="com.jsv.rest.entity.ServiceEntity"/>
-        <mapping resource="com/jsv/rest/entity/ServiceEntity.hbm.xml"/>
-        <mapping resource="com/jsv/rest/entity/UserEntity.hbm.xml"/>
-        <mapping class="com.jsv.rest.entity.UserEntity"/>
-        <mapping resource="com/jsv/rest/entity/UserGroupMapEntity.hbm.xml"/>
-        <mapping class="com.jsv.rest.entity.UserGroupMapEntity"/>
+        <mapping class="com.jsv.rest.persistance.User"/>
+        <mapping class="com.jsv.rest.persistance.Group"/>
+        <mapping class="com.jsv.rest.persistance.Service"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
