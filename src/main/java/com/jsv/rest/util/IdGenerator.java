@@ -1,6 +1,6 @@
 package com.jsv.rest.util;
 /*
- * User: Indika Gunawardana
+ * UserEntity: Indika Gunawardana
  * Date: 1/6/19
  * Time: 2:32 PM
  * Copyright(c) 2018 AXIS, LLC.

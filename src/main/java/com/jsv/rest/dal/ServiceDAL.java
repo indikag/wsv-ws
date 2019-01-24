@@ -1,176 +1,147 @@
 package com.jsv.rest.dal;
 /*
- * User: Indika Gunawardana
+ * UserEntity: Indika Gunawardana
  * Date: 1/5/19
  * Time: 5:24 PM
  * Copyright(c) 2018 AXIS, LLC.
  */
 
-import com.jsv.rest.entity.ServiceEntity;
-import com.jsv.rest.model.Service;
+import com.jsv.rest.persistance.Service;
 import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class ServiceDAL {
-
     /**
-     * Insert a new service object
-     * @param service new service model(auto generated id)
+     * Add a new user
+     *
+     * @param service
+     * @throws Exception
      */
-    public static void addService(Service service) throws IllegalArgumentException {
-        service.validate();
-
-        Session session = SessionUtil.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            ServiceEntity entity = new ServiceEntity();
-            entity.setServiceId(service.getServiceId());
-            entity.setJsonFile(service.getJsonFile());
-            entity.setServiceName(service.getServiceName());
-            entity.setServiceUrl(service.getServiceUrl());
-            session.save(entity);
-
-            transaction.commit();
-        } catch (Exception e) {
-            System.out.println("error");
-            e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            session.close();
+    public static void addService(Service service) throws Exception {
+        if (service == null) {
+            throw new IllegalArgumentException("Service is null");
         }
-        System.out.println("done");
-    }
-
-    /**
-     * Update an existing service model
-     * @param service new service model
-     * @param updateEmptyFields if true update null and empty fields, otherwise only not null fields
-     */
-    public static void updateService(Service service, Boolean updateEmptyFields) throws IllegalArgumentException {
-        service.validate();
-        Session session = SessionUtil.getSession();
+        Session session = null;
         Transaction transaction = null;
         try {
+            session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            Service existingService = session.get(Service.class, service.getServiceId());
-            if (updateEmptyFields) {
-                existingService.setServiceName(service.getServiceName());
-                existingService.setServiceUrl(service.getServiceUrl());
-                existingService.setJsonFile(service.getJsonFile());
-                session.update(existingService);
-            } else {
-                if (service.getServiceName() != null && service.getServiceName() != "") {
-                    existingService.setServiceName(service.getServiceName());
-                }
-                if (service.getServiceUrl() != null && service.getServiceUrl() != "") {
-                    existingService.setServiceUrl(service.getServiceUrl());
-                }
-                if (service.getJsonFile() != null && service.getJsonFile() != "") {
-                    existingService.setJsonFile(service.getJsonFile());
-                }
-                session.update(existingService);
-            }
 
-            session.delete(service);
+            session.save(service);
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
+
+            throw e;
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     /**
-     * Delete a service by service id
-     * @param serviceId id of the service
+     * Get service by service id
+     *
+     * @param serviceId
+     * @return
+     * @throws Exception
      */
-    public static void deleteService(String serviceId) throws IllegalArgumentException {
+    public static Service getServiceByServiceId(String serviceId) throws Exception {
         if (serviceId == null || serviceId.isEmpty()) {
             throw new IllegalArgumentException("Service id cannot be null or empty");
         }
-
-        Session session = SessionUtil.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            Service service = session.get(Service.class, serviceId);
-            session.delete(service);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            session.close();
-        }
-    }
-
-    /**
-     * Get existing service by it's id
-     * @param serviceId id of the service
-     * @return service model
-     */
-    public static Service getServiceById(String serviceId) throws IllegalArgumentException {
-        if (serviceId == null || serviceId.isEmpty()) {
-            throw new IllegalArgumentException("Service id cannot be null or empty");
-        }
-
-        Session session = SessionUtil.getSession();
+        Session session = null;
         Transaction transaction = null;
         Service service = null;
         try {
+            session = SessionUtil.getSession();
             transaction = session.beginTransaction();
+
             service = session.get(Service.class, serviceId);
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
+
+            throw e;
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
 
         return service;
     }
 
     /**
-     * Get all service in the system
-     * @return list of service models
+     * Update an existing user
+     *
+     * @param service
+     * @throws Exception
      */
-    public static ArrayList<Service> getAllServices() {
-        Session session = SessionUtil.getSession();
+    public static void updateService(Service service) throws Exception {
+        if (service == null) {
+            throw new IllegalArgumentException("Service is null");
+        }
+        Session session = null;
         Transaction transaction = null;
-        ArrayList<Service> serviceList = null;
         try {
+            session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            List list = session.createQuery("from ServiceEntity ").list();
-            Iterator iterator = list.iterator();
-            serviceList = new ArrayList<Service>();
-            while (iterator.hasNext()) {
-                ServiceEntity entity = ((ServiceEntity) iterator.next());
-                Service model = new Service();
-                model.convert(entity);
-                serviceList.add(model);
-            }
+
+            session.update(service);
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-        } finally {
-            session.close();
-        }
 
-        return serviceList;
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    /**
+     * Delete an existing user
+     *
+     * @param serviceId
+     * @throws Exception
+     */
+    public static void deleteService(String serviceId) throws Exception {
+        if (serviceId == null || serviceId.isEmpty()) {
+            throw new IllegalArgumentException("Service id cannot be null or empty");
+        }
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+
+            Service service = session.get(Service.class, serviceId);
+            session.delete(service);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

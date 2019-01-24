@@ -1,6 +1,6 @@
 package com.jsv.rest;
 
-import com.jsv.rest.model.Service;
+import com.jsv.rest.persistance.Service;
 import com.jsv.rest.util.Log;
 
 import javax.ws.rs.POST;
@@ -13,32 +13,42 @@ import javax.ws.rs.Produces;
  * Time: 5:20 PM
  * Copyright(c) 2018 AXIS, LLC.
  */
-@Path("service") @Produces("application/json") public class ServiceWS {
+@Path("service")
+@Produces("application/json")
+public class ServiceWS {
 
-    @POST @Path("add") public void addService(Service service) {
+    @POST
+    @Path("add")
+    public void addService(Service service) {
         Log.log("Start addService");
-        //Body
+        // Body
 
         Log.log("End addService");
     }
 
-    @POST @Path("update") public void updateService() {
+    @POST
+    @Path("update")
+    public void updateService() {
         Log.log("Start updateService");
-        //Body
+        // Body
 
         Log.log("End updateService");
     }
 
-    @POST @Path("delete") public void deleteService() {
+    @POST
+    @Path("delete")
+    public void deleteService() {
         Log.log("Start deleteService");
-        //Body
+        // Body
 
         Log.log("End deleteService");
     }
 
-    @POST @Path("assign") public void assignGroup() {
+    @POST
+    @Path("assign")
+    public void assignGroup() {
         Log.log("Start assignGroup");
-        //Body
+        // Body
 
         Log.log("End assignGroup");
     }

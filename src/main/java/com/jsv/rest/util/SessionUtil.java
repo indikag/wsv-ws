@@ -1,6 +1,6 @@
 package com.jsv.rest.util;
 /*
- * User: Indika Gunawardana
+ * UserEntity: Indika Gunawardana
  * Date: 1/6/19
  * Time: 7:45 AM
  * Copyright(c) 2018 AXIS, LLC.
@@ -21,7 +21,7 @@ public class SessionUtil {
 
             ourSessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {
-            //ex.printStackTrace();
+            // ex.printStackTrace();
             throw new ExceptionInInitializerError(ex);
         }
     }

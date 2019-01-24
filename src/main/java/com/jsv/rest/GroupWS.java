@@ -12,32 +12,42 @@ import javax.ws.rs.Produces;
  * Time: 5:20 PM
  * Copyright(c) 2018 AXIS, LLC.
  */
-@Path("group") @Produces("application/json") public class GroupWS {
+@Path("group")
+@Produces("application/json")
+public class GroupWS {
 
-    @POST @Path("add") public void addGroup() {
+    @POST
+    @Path("add")
+    public void addGroup() {
         Log.log("Start addGroup");
-        //Body
+        // Body
 
         Log.log("End addGroup");
     }
 
-    @POST @Path("delete") public void deleteGroup() {
+    @POST
+    @Path("delete")
+    public void deleteGroup() {
         Log.log("Start deleteGroup");
-        //Body
+        // Body
 
         Log.log("End deleteGroup");
     }
 
-    @POST @Path("update") public void updateGroup() {
+    @POST
+    @Path("update")
+    public void updateGroup() {
         Log.log("Start updateGroup");
-        //Body
+        // Body
 
         Log.log("End updateGroup");
     }
 
-    @POST @Path("assign") public void assignUser() {
+    @POST
+    @Path("assign")
+    public void assignUser() {
         Log.log("Start assignUser");
-        //Body
+        // Body
 
         Log.log("End assignUser");
     }

@@ -1,231 +1,247 @@
 package com.jsv.rest.dal;
 /*
- * User: Indika Gunawardana
+ * UserEntity: Indika Gunawardana
  * Date: 1/5/19
  * Time: 5:24 PM
  * Copyright(c) 2018 AXIS, LLC.
  */
 
-import com.jsv.rest.entity.UserEntity;
-import com.jsv.rest.model.User;
+import com.jsv.rest.persistance.Group;
+import com.jsv.rest.persistance.User;
 import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.TransactionException;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserDAL {
-    /**
-     * Adding a new user model
-     *
-     * @param user user model
-     * @throws IllegalArgumentException
-     */
-    public static void addUser(User user) throws IllegalArgumentException, TransactionException {
-        user.validate();
-
-        Session session = SessionUtil.getSession();
+    public static void common(User user) throws Exception {
+        if (user == null) {
+            throw new IllegalArgumentException("User model is null");
+        }
+        Session session = null;
         Transaction transaction = null;
         try {
+            session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserId(user.getUserId());
-            userEntity.setPassword(user.getPassword());
-            userEntity.setUserName(user.getUserName());
-
-            session.save(userEntity);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new TransactionException(e.getMessage());
+
+            throw e;
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     /**
-     * Update an existing user
+     * Adding a new user
      *
      * @param user
-     * @param updateEmptyFields
-     * @throws IllegalArgumentException
      */
-    public static void updateUser(User user, Boolean updateEmptyFields)
-            throws IllegalArgumentException, TransactionException {
-        user.validate();
-        Session session = SessionUtil.getSession();
+    public static void addUser(User user) throws Exception {
+        if (user == null) {
+            throw new IllegalArgumentException("User model is null");
+        }
+        Session session = null;
         Transaction transaction = null;
         try {
+            session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            User existingUser = session.get(User.class, user.getUserId());
-            if (updateEmptyFields) {
-                existingUser.setPassword(user.getPassword());
-                existingUser.setUserName(user.getUserName());
-
-                session.update(existingUser);
-            } else {
-                if (user.getUserName() != null && user.getUserName() != "") {
-                    existingUser.setUserName(user.getUserName());
-                }
-                if (user.getPassword() != null && user.getPassword() != "") {
-                    existingUser.setPassword(user.getPassword());
-                }
-                session.update(existingUser);
-            }
-
-            session.delete(user);
+            session.save(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new TransactionException(e.getMessage());
+
+            throw e;
         } finally {
-            session.close();
-        }
-    }
-
-    /**
-     * Delete a user by user id
-     *
-     * @param userId id of the user
-     * @throws IllegalArgumentException
-     */
-    public static void deleteUser(String userId) throws IllegalArgumentException, TransactionException {
-        if (userId == null || userId.isEmpty()) {
-            throw new IllegalArgumentException("User id cannot be null or empty");
-        }
-
-        Session session = SessionUtil.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            User user = session.get(User.class, userId);
-            session.delete(user);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (session != null) {
+                session.close();
             }
-            throw new TransactionException(e.getMessage());
-        } finally {
-            session.close();
         }
     }
 
     /**
      * Get user by user id
      *
-     * @param userId id of the user
-     * @return user model
-     * @throws IllegalArgumentException user id is null or empty
+     * @param userId
+     * @return
+     * @throws Exception
      */
-    public static User getUserByUserId(String userId) throws IllegalArgumentException, TransactionException {
+    public static User getUser(String userId) throws Exception {
         if (userId == null || userId.isEmpty()) {
             throw new IllegalArgumentException("User id cannot be null or empty");
         }
-
-        Session session = SessionUtil.getSession();
+        Session session = null;
         Transaction transaction = null;
-        User user = new User();
+        User user = null;
         try {
+            session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            UserEntity userEntity = session.get(UserEntity.class, userId);
-            user.convert(userEntity);
+            user = session.get(User.class, userId);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new TransactionException(e.getMessage());
+
+            throw e;
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
 
         return user;
     }
 
     /**
-     * Gets all users
-     *
-     * @return list or user models
-     */
-    public static ArrayList<User> getAllUsers() throws TransactionException {
-        Session session = SessionUtil.getSession();
-        Transaction transaction = null;
-        ArrayList<User> userList = null;
-        try {
-            transaction = session.beginTransaction();
-            List list = session.createQuery("from UserEntity ").list();
-            Iterator iterator = list.iterator();
-            userList = new ArrayList<User>();
-            while (iterator.hasNext()) {
-                UserEntity entity = ((UserEntity) iterator.next());
-                User user = new User();
-                user.convert(entity);
-                userList.add(user);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            throw new TransactionException(e.getMessage());
-        } finally {
-            session.close();
-        }
-
-        return userList;
-    }
-
-    /**
      * Get user by user name and password
      *
-     * @param user user model
-     * @return user list
-     * @throws IllegalArgumentException
-     * @throws TransactionException
+     * @param userName
+     * @param password
+     * @return
+     * @throws Exception
      */
-    public static List getUserByUserNameAndPassword(User user) throws IllegalArgumentException, TransactionException {
-        if (user == null) {
-            throw new IllegalArgumentException("User model is null");
+    public static List login(String userName, String password) throws Exception {
+        if (userName == null || userName.isEmpty()) {
+            throw new IllegalArgumentException("User name cannot be null or empty");
         }
-
-        if (user.getUserName() == null || user.getUserName().isEmpty()) {
-            throw new IllegalArgumentException("User name is null or empty");
-        }
-
-        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+        if (password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Password is null or empty");
         }
-        Session session = SessionUtil.getSession();
+
+        Session session = null;
         Transaction transaction = null;
         List list = null;
         try {
+            session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            //execute the query here
-            String hql = "From UserEntity U WHERE U.userName=:user_name AND U.password=:password";
+            String hql = "From User U WHERE U.userName=:userName AND U.password = :password";
             Query query = session.createQuery(hql);
-            query.setParameter("user_name", user.getUserName());
-            query.setParameter("password", user.getPassword());
+            query.setParameter("userName", userName);
+            query.setParameter("password", password);
             list = query.list();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new TransactionException(e.getMessage());
+
+            throw e;
         } finally {
-            session.close();
+            if (session != null) {
+                session.close();
+            }
         }
 
         return list;
+    }
 
+    /**
+     * Assigning a user to a group
+     *
+     * @param userId
+     * @param groupId
+     * @throws Exception
+     */
+    public static void assignToGroup(String userId, String groupId) throws Exception {
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User Id cannot be null or empty");
+        }
+        if (groupId == null || groupId.isEmpty()) {
+            throw new IllegalArgumentException("Group Id is null or empty");
+        }
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, userId);
+            if (user == null) {
+                throw new Exception("Invalid user Id");
+            }
+            Group group = session.get(Group.class, groupId);
+            if (group == null) {
+                throw new Exception("Invalid group Id");
+            }
+
+            Set list = new HashSet();
+            list.add(group);
+            user.setGroups(list);
+            session.save(user);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    /**
+     * Resign a user from a group
+     *
+     * @param userId
+     * @param groupId
+     * @throws Exception
+     */
+    public static void resignFromGroup(String userId, String groupId) throws Exception {
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User Id cannot be null or empty");
+        }
+        if (groupId == null || groupId.isEmpty()) {
+            throw new IllegalArgumentException("Group Id is null or empty");
+        }
+        Session session = null;
+        Transaction transaction = null;
+
+        try {
+            session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+
+            User user = session.get(User.class, userId);
+            if (user == null) {
+                throw new IllegalArgumentException("User id is not valid");
+            }
+            Group group = session.get(Group.class, groupId);
+            if (group == null) {
+                throw new IllegalArgumentException("Group id is not valid");
+            }
+
+            // Get the users current group list and remove the item
+            Set<Group> groups = user.getGroups();
+            groups.remove(group);
+            // set new list
+            user.setGroups(groups);
+            session.update(user);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

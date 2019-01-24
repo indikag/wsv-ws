@@ -1,6 +1,6 @@
 package com.jsv.rest.util;
 /*
- * User: Indika Gunawardana
+ * UserEntity: Indika Gunawardana
  * Date: 1/21/19
  * Time: 4:03 AM
  * Copyright(c) 2018 AXIS, LLC.
@@ -34,7 +34,8 @@ public class Response {
         this.payload = payload;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Response{" + "status=" + status + ", payload=" + payload + '}';
     }
 }
