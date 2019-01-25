@@ -6,11 +6,14 @@ package com.jsv.rest;
  * Copyright(c) 2018 AXIS, LLC.
  */
 
+import com.jsv.rest.dal.UserDAL;
 import com.jsv.rest.persistance.User;
 import com.jsv.rest.util.Log;
 import com.jsv.rest.util.Response;
+import com.jsv.rest.util.Status;
 
 import javax.ws.rs.*;
+import java.util.List;
 
 @Path("user")
 @Produces("application/json")
@@ -30,11 +33,24 @@ public class UserWS {
     @POST
     @Path("/login")
     public Response login(User user) {
-        Log.log("Start login");
-        boolean success = false;
-        // Body
+        Log.log("Start login " + user.toString());
+        //Body
+        List userList;
+        try {
+            userList = UserDAL.login(user.getUserName(), user.getPassword());
+            if (userList != null && userList.size() > 0) {
+                response.setStatus(Status.SUCCESS);
+                response.setPayload(true);
+            } else {
+                response.setStatus(Status.APPLICATION_ERROR);
+                response.setPayload(false);
+            }
+        } catch (Exception e) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(false);
+        }
 
-        Log.log("End login");
+        Log.log("End login " + response.toString());
         return response;
     }
 
