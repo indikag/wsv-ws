@@ -10,6 +10,9 @@ import com.jsv.rest.persistance.Service;
 import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class ServiceDAL {
     /**
@@ -143,5 +146,42 @@ public class ServiceDAL {
                 session.close();
             }
         }
+    }
+
+    /**
+     * Get all services for a user
+     *
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    public static List<Service> getServicesByUserId(String userId) throws Exception {
+        if (userId == null || userId.isEmpty()) {
+            throw new IllegalArgumentException("User id is null or empty");
+        }
+        Session session = null;
+        Transaction transaction = null;
+        List list = null;
+        try {
+            session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+
+            String hql = "";
+            Query query = session.createQuery(hql);
+            query.setParameter("userId", userId);
+            list = query.list();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return list;
     }
 }
