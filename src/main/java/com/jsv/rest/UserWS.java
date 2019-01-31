@@ -22,17 +22,25 @@ public class UserWS {
 
     @GET
     @Path("/get")
-    public Response getUserByUserId(@QueryParam("id") String id) {
+    public javax.ws.rs.core.Response getUserByUserId(@QueryParam("id") String id) {
         Log.log("Start getUserByUserId");
         // Body
+        try {
+            User user = UserDAL.getUser(id);
+            response.setStatus(Status.SUCCESS);
+            response.setPayload(user);
+        } catch (Exception e) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(null);
+        }
 
         Log.log("End getUserByUserId");
-        return response;
+        return response.build();
     }
 
     @POST
     @Path("/login")
-    public Response login(User user) {
+    public javax.ws.rs.core.Response login(User user) {
         Log.log("Start login " + user.toString());
         //Body
         List userList;
@@ -51,27 +59,27 @@ public class UserWS {
         }
 
         Log.log("End login " + response.toString());
-        return response;
+        return response.build();
     }
 
     @POST
     @Path("/add")
-    public Response addUser(User user) throws IllegalArgumentException {
+    public javax.ws.rs.core.Response addUser(User user) throws IllegalArgumentException {
         Log.log("Start add");
         // Body
 
         Log.log("End add");
-        return response;
+        return response.build();
     }
 
     @POST
     @Path("/assign")
-    public Response joinGroup() {
+    public javax.ws.rs.core.Response joinGroup() {
         Log.log("Start assignToGroup");
         // Body
 
         Log.log("End assignToGroup");
-        return response;
+        return response.build();
     }
 
     @POST

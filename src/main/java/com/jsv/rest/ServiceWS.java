@@ -1,11 +1,13 @@
 package com.jsv.rest;
 
+import com.jsv.rest.dal.ServiceDAL;
 import com.jsv.rest.persistance.Service;
 import com.jsv.rest.util.Log;
+import com.jsv.rest.util.Response;
+import com.jsv.rest.util.Status;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.util.List;
 
 /*
  * User: Indika Gunawardana
@@ -16,6 +18,23 @@ import javax.ws.rs.Produces;
 @Path("service")
 @Produces("application/json")
 public class ServiceWS {
+    private Response response = new Response();
+
+    @GET
+    @Path("get")
+    public javax.ws.rs.core.Response getServiceByUserId(@QueryParam("id") String id) {
+        Log.log("Start getServiceByUserId");
+        try {
+            List<Service> serviceList = ServiceDAL.getServicesByUserId(id);
+            response.setStatus(Status.SUCCESS);
+            response.setPayload(serviceList);
+        } catch (Exception e) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(null);
+        }
+        Log.log("End getServiceByUserId=======" + response);
+        return response.build();
+    }
 
     @POST
     @Path("add")
