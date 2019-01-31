@@ -34,8 +34,16 @@ public class Response {
         this.payload = payload;
     }
 
+    public javax.ws.rs.core.Response build() {
+        javax.ws.rs.core.Response.ResponseBuilder builder = javax.ws.rs.core.Response.ok(this.payload);
+        builder.status(this.status.getCode());
+
+        return builder.build();
+    }
+
     @Override
     public String toString() {
         return "Response{" + "status=" + status + ", payload=" + payload + '}';
     }
+
 }
