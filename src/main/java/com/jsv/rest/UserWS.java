@@ -43,12 +43,13 @@ public class UserWS {
     public javax.ws.rs.core.Response login(User user) {
         Log.log("Start login " + user.toString());
         //Body
-        List userList;
+        List<User> userList;
         try {
             userList = UserDAL.login(user.getUserName(), user.getPassword());
             if (userList != null && userList.size() > 0) {
+                User user_ = userList.get(0);
                 response.setStatus(Status.SUCCESS);
-                response.setPayload(true);
+                response.setPayload(user_.getUserId());
             } else {
                 response.setStatus(Status.APPLICATION_ERROR);
                 response.setPayload(false);
