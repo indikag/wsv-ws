@@ -35,7 +35,7 @@ public class Response {
     }
 
     public javax.ws.rs.core.Response build() {
-        javax.ws.rs.core.Response.ResponseBuilder builder = javax.ws.rs.core.Response.ok(this.payload);
+        javax.ws.rs.core.Response.ResponseBuilder builder = javax.ws.rs.core.Response.ok(this);
         builder.status(this.status.getCode());
 
         return builder.build();
