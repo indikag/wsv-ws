@@ -1,10 +1,13 @@
 package com.jsv.rest;
 
+import com.jsv.rest.dal.UserDAL;
+import com.jsv.rest.persistance.Group;
 import com.jsv.rest.util.Log;
+import com.jsv.rest.util.Response;
+import com.jsv.rest.util.Status;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.util.Set;
 
 /*
  * User: Indika Gunawardana
@@ -15,6 +18,25 @@ import javax.ws.rs.Produces;
 @Path("group")
 @Produces("application/json")
 public class GroupWS {
+    private Response response = new Response();
+
+    @GET
+    @Path("/get")
+    public javax.ws.rs.core.Response getGrupsByUserId(@QueryParam("id") String id) {
+        Log.log("Start getUserByUserId");
+        // Body
+        try {
+            Set<Group> user = UserDAL.getUser(id).getGroups();
+            response.setStatus(Status.SUCCESS);
+            response.setPayload(user);
+        } catch (Exception e) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(null);
+        }
+
+        Log.log("End getUserByUserId");
+        return response.build();
+    }
 
     @POST
     @Path("add")
