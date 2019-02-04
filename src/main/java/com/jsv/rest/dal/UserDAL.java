@@ -7,6 +7,7 @@ package com.jsv.rest.dal;
  */
 
 import com.jsv.rest.persistance.Group;
+import com.jsv.rest.persistance.Service;
 import com.jsv.rest.persistance.User;
 import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
@@ -122,7 +123,7 @@ public class UserDAL {
 
         Session session = null;
         Transaction transaction = null;
-        List list = null;
+        List<Service> list = null;
         try {
             session = SessionUtil.getSession();
             transaction = session.beginTransaction();
