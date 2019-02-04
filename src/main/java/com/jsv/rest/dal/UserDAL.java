@@ -7,7 +7,6 @@ package com.jsv.rest.dal;
  */
 
 import com.jsv.rest.persistance.Group;
-import com.jsv.rest.persistance.Service;
 import com.jsv.rest.persistance.User;
 import com.jsv.rest.util.SessionUtil;
 import org.hibernate.Session;
@@ -113,7 +112,7 @@ public class UserDAL {
      * @return
      * @throws Exception
      */
-    public static List login(String userName, String password) throws Exception {
+    public static List<User> login(String userName, String password) throws Exception {
         if (userName == null || userName.isEmpty()) {
             throw new IllegalArgumentException("User name cannot be null or empty");
         }
@@ -123,7 +122,7 @@ public class UserDAL {
 
         Session session = null;
         Transaction transaction = null;
-        List<Service> list = null;
+        List<User> list = null;
         try {
             session = SessionUtil.getSession();
             transaction = session.beginTransaction();
