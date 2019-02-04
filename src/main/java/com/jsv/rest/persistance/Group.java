@@ -90,9 +90,9 @@ public class Group implements Serializable {
                 + groupName
                 + '\''
                 + ", services="
-                + services
+                + services.size()
                 + ", users="
-                + users
+                + users.size()
                 + '}';
     }
 }

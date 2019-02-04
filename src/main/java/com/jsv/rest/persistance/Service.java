@@ -105,7 +105,7 @@ public class Service implements Serializable {
                 + serviceUrl
                 + '\''
                 + ", groups="
-                + groups
+                + groups.size()
                 + '}';
     }
 }
