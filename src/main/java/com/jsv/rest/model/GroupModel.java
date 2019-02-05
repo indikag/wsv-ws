@@ -46,7 +46,7 @@ public class GroupModel {
     }
 
     public void convert(Group groupEntity) {
-        this.setGroupId(groupEntity.getGroupName());
+        this.setGroupId(groupEntity.getGroupId());
         this.setGroupName(groupEntity.getGroupName());
     }
 }
