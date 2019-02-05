@@ -1,12 +1,14 @@
 package com.jsv.rest;
 
 import com.jsv.rest.dal.UserDAL;
+import com.jsv.rest.model.GroupModel;
 import com.jsv.rest.persistance.Group;
 import com.jsv.rest.util.Log;
 import com.jsv.rest.util.Response;
 import com.jsv.rest.util.Status;
 
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.Set;
 
 /*
@@ -22,13 +24,19 @@ public class GroupWS {
 
     @GET
     @Path("/get")
-    public javax.ws.rs.core.Response getGrupsByUserId(@QueryParam("id") String id) {
+    public javax.ws.rs.core.Response getGroupsByUserId(@QueryParam("id") String id) {
         Log.log("Start getUserByUserId");
         // Body
+        ArrayList<GroupModel> list = null;
         try {
-            Set<Group> user = UserDAL.getUser(id).getGroups();
+            list = new ArrayList<GroupModel>();
+            Set<Group> groups = UserDAL.getUser(id).getGroups();
+            for (Group group : groups) {
+                list.add(new GroupModel(group.getGroupId(), group.getGroupName()));
+            }
+
             response.setStatus(Status.SUCCESS);
-            response.setPayload(user);
+            response.setPayload(list);
         } catch (Exception e) {
             response.setStatus(Status.APPLICATION_ERROR);
             response.setPayload(null);
