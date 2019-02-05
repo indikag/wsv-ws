@@ -32,7 +32,9 @@ public class GroupWS {
             list = new ArrayList<GroupModel>();
             Set<Group> groups = UserDAL.getUser(id).getGroups();
             for (Group group : groups) {
-                list.add(new GroupModel(group.getGroupId(), group.getGroupName()));
+                GroupModel model = new GroupModel();
+                model.convert(group);
+                list.add(model);
             }
 
             response.setStatus(Status.SUCCESS);
