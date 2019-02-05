@@ -7,6 +7,7 @@ package com.jsv.rest;
  */
 
 import com.jsv.rest.dal.UserDAL;
+import com.jsv.rest.model.UserModel;
 import com.jsv.rest.persistance.User;
 import com.jsv.rest.util.Log;
 import com.jsv.rest.util.Response;
@@ -43,13 +44,14 @@ public class UserWS {
     public javax.ws.rs.core.Response login(User user) {
         Log.log("Start login " + user.toString());
         //Body
-        List<User> userList;
         try {
-            userList = UserDAL.login(user.getUserName(), user.getPassword());
+            List<User> userList = UserDAL.login(user.getUserName(), user.getPassword());
             if (userList != null && userList.size() > 0) {
                 User user_ = userList.get(0);
+                UserModel model = new UserModel();
+                model.convert(user_);
                 response.setStatus(Status.SUCCESS);
-                response.setPayload(user_.getUserId());
+                response.setPayload(model.getUserId());
             } else {
                 response.setStatus(Status.APPLICATION_ERROR);
                 response.setPayload(false);
