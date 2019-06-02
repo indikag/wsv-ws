@@ -42,8 +42,17 @@ public class Main {
         //getServicesForGroup();
         //checkSet();
         //getGroupsByUserId();
-        deleteService("1-s");
+        //deleteService("1-s");
+        publish();
+    }
 
+
+    static void publish() {
+        try {
+            ServiceDAL.publishUnpublishService("1-s", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     static void deleteService(String serviceId) {
