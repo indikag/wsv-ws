@@ -12,6 +12,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -90,7 +91,7 @@ public class Service implements Serializable {
         this.published = published;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "group_service",
@@ -112,7 +113,20 @@ public class Service implements Serializable {
                 ", serviceName='" + serviceName + '\'' +
                 ", serviceUrl='" + serviceUrl + '\'' +
                 ", published=" + published +
-                ", groups=" + groups.size() +
+                ", groups=" + groupString(groups) +
                 '}';
+    }
+
+    private String groupString(Set<Group> groups) {
+        if (groups == null) {
+            return "null";
+        }
+        String out = "";
+        Iterator<Group> iterator = groups.iterator();
+        while (iterator.hasNext()) {
+            out += iterator.next().toString();
+        }
+
+        return out;
     }
 }
