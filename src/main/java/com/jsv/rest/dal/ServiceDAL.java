@@ -8,6 +8,7 @@ package com.jsv.rest.dal;
 
 import com.jsv.rest.persistance.Service;
 import com.jsv.rest.util.SessionUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -183,5 +184,44 @@ public class ServiceDAL {
             }
         }
         return list;
+    }
+
+    /**
+     * Change the publish status to true and false.
+     * @param serviceId id of the service.
+     * @param publishStatus true if published else flase
+     * @throws Exception cannot update
+     */
+    public static void publishUnpublishService(String serviceId, Boolean publishStatus) throws Exception {
+        if (serviceId == null || serviceId.isEmpty()) {
+            throw new IllegalArgumentException("Service id cannot be null or empty");
+        }
+
+        if (publishStatus == null) {
+            throw new IllegalArgumentException("Publish status  cannot be null or empty");
+        }
+
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+
+            Service service = session.get(Service.class, serviceId);
+            service.setPublished(publishStatus);
+            session.update(service);
+
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }
