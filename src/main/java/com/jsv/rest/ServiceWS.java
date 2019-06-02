@@ -134,7 +134,7 @@ public class ServiceWS {
 
     @GET
     @Path("publish")
-    public void publish(@QueryParam("id") String id) {
+    public javax.ws.rs.core.Response publish(@QueryParam("id") String id) {
         Log.log("Start publish");
         // Body
         try {
@@ -148,11 +148,12 @@ public class ServiceWS {
         }
 
         Log.log("End publish");
+        return response.build();
     }
 
     @GET
     @Path("unpublish")
-    public void unpublish(@QueryParam("id") String id) {
+    public javax.ws.rs.core.Response unpublish(@QueryParam("id") String id) {
         Log.log("Start unpublish");
         // Body
         try {
@@ -165,6 +166,7 @@ public class ServiceWS {
             response.setPayload(false);
         }
         Log.log("End unpublish");
+        return response.build();
     }
 
     @POST
