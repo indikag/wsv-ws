@@ -22,13 +22,13 @@ public class Service implements Serializable {
     private String jsonFile;
     private String serviceName;
     private String serviceUrl;
-    private Integer published;
+    private Boolean published;
     private Set<Group> groups = new HashSet<Group>(0);
 
     public Service() {
     }
 
-    public Service(String serviceId, String jsonFile, String serviceName, String serviceUrl, Integer published) {
+    public Service(String serviceId, String jsonFile, String serviceName, String serviceUrl, Boolean published) {
         this.serviceId = serviceId;
         this.jsonFile = jsonFile;
         this.serviceName = serviceName;
@@ -83,11 +83,11 @@ public class Service implements Serializable {
     }
 
     @Column(name = "published")
-    public Integer getPublished() {
+    public Boolean getPublished() {
         return published;
     }
 
-    public void setPublished(Integer published) {
+    public void setPublished(Boolean published) {
         this.published = published;
     }
 
