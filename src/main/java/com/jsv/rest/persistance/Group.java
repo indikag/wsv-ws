@@ -6,6 +6,9 @@ package com.jsv.rest.persistance;
  * Copyright(c) 2018 AXIS, LLC.
  */
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -55,6 +58,7 @@ public class Group implements Serializable {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "group_service",
             joinColumns = {@JoinColumn(name = "groupId")},
@@ -68,6 +72,7 @@ public class Group implements Serializable {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "user_group",
             joinColumns = {@JoinColumn(name = "groupId")},

@@ -6,9 +6,13 @@ package com.jsv.rest.persistance;
  * Copyright(c) 2018 AXIS, LLC.
  */
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -63,7 +67,10 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
+    //@Transient this can also be used
+    //@JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "user_group",
             joinColumns = {@JoinColumn(name = "userId")},
@@ -89,7 +96,17 @@ public class User implements Serializable {
                 + userName
                 + '\''
                 + ", groups="
-                + groups.size()
+                + this.groups(groups)
                 + '}';
+    }
+
+    private String groups(Set<Group> groups) {
+        Iterator<Group> iterator = groups.iterator();
+        String value = "";
+        while (iterator.hasNext()) {
+            value += iterator.next().toString();
+        }
+
+        return value;
     }
 }

@@ -39,6 +39,7 @@ public class UserWS {
         return response.build();
     }
 
+
     @POST
     @Path("/login")
     public javax.ws.rs.core.Response login(User user) {

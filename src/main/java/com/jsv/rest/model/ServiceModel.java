@@ -14,15 +14,17 @@ public class ServiceModel {
     private String serviceName;
     private String serviceUrl;
     private String jsonFile;
+    private Boolean published;
 
     public ServiceModel() {
     }
 
-    public ServiceModel(String serviceId, String serviceName, String serviceUrl, String jsonFile) {
+    public ServiceModel(String serviceId, String serviceName, String serviceUrl, String jsonFile, Boolean published) {
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.serviceUrl = serviceUrl;
         this.jsonFile = jsonFile;
+        this.published = published;
     }
 
     public String getServiceId() {
@@ -57,6 +59,14 @@ public class ServiceModel {
         this.jsonFile = jsonFile;
     }
 
+    public Boolean getPublished() {
+        return published;
+    }
+
+    public void setPublished(Boolean published) {
+        this.published = published;
+    }
+
     @Override
     public String toString() {
         return "ServiceModel{" +
@@ -64,6 +74,7 @@ public class ServiceModel {
                 ", serviceName='" + serviceName + '\'' +
                 ", serviceUrl='" + serviceUrl + '\'' +
                 ", jsonFile='" + jsonFile + '\'' +
+                ", published=" + published +
                 '}';
     }
 
@@ -72,5 +83,6 @@ public class ServiceModel {
         this.setServiceName(serviceEntity.getServiceName());
         this.setServiceUrl(serviceEntity.getServiceUrl());
         this.setJsonFile(serviceEntity.getJsonFile());
+        this.setPublished((serviceEntity.getPublished() == 1)? true: false);
     }
 }

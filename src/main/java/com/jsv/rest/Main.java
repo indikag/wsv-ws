@@ -8,6 +8,8 @@ import com.jsv.rest.persistance.Service;
 import com.jsv.rest.persistance.User;
 import com.jsv.rest.util.IdGenerator;
 
+import java.util.*;
+
 /*
  * UserEntity: Indika Gunawardana
  * Date: 1/6/19
@@ -27,9 +29,88 @@ public class Main {
         // getGroup();
         //addService();
         //getService();
-
+        //assign();
+        //resign();
+        //addSampleServicesToUser();
+        //getServicesByUserId();
+        //getUserByUserId();
+        //getServicesForGroup();
+        //checkSet();
+        getGroupsByUserId();
     }
 
+    static void getGroupsByUserId() {
+        try {
+            Set<Group> user = UserDAL.getUser(userId).getGroups();
+            System.out.println(user.size());
+            for (Group g :
+                    user) {
+                System.out.println(g.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void getServicesForGroup() throws Exception {
+        Group group = GroupDAL.getGroupByGroupId(groupId);
+        Set<Service> services = group.getServices();
+        for (Service s:
+             services) {
+            System.out.println(s.toString());
+        }
+    }
+
+    static void checkSet() {
+        Set set = new HashSet();
+        set.add("s");
+        set.add("ss");
+        set.add("sss");
+
+        System.out.println(Arrays.toString(set.toArray()));
+    }
+
+
+    static void addSampleServicesToUser() {
+        ArrayList<String> idList = new ArrayList<String>();
+        for (int a =0; a< 5; a++) {
+            String id = IdGenerator.generate();
+            idList.add(id);
+
+            addService(id, a);
+        }
+    }
+
+    private static void addService(String id, int index) {
+        Service service = new Service();
+        service.setServiceId(id);
+        service.setJsonFile("path to the file");
+        service.setServiceName("test_service_1" + index);
+        service.setServiceUrl("http://localhost:8080/wsv");
+
+        try {
+            ServiceDAL.addService(service);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    static void resign() {
+        try {
+            UserDAL.resignFromGroup(userId, groupId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    static void assign() {
+        try {
+            UserDAL.assignToGroup(userId, groupId);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /*
     COMPLETED BASIC OPERATIONS OF ALL CLASSES
@@ -78,7 +159,7 @@ public class Main {
         }
     }
 
-    private static void getUser() {
+    private static User getUser() {
         User user = null;
         try {
             user = UserDAL.getUser(userId);
@@ -86,6 +167,8 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return user;
     }
 
     private static void addUser() {

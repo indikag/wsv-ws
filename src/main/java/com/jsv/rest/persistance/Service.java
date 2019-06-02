@@ -6,6 +6,9 @@ package com.jsv.rest.persistance;
  * Copyright(c) 2018 AXIS, LLC.
  */
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,16 +21,18 @@ public class Service implements Serializable {
     private String jsonFile;
     private String serviceName;
     private String serviceUrl;
+    private Integer published;
     private Set<Group> groups = new HashSet<Group>(0);
 
     public Service() {
     }
 
-    public Service(String serviceId, String jsonFile, String serviceName, String serviceUrl) {
+    public Service(String serviceId, String jsonFile, String serviceName, String serviceUrl, Integer published) {
         this.serviceId = serviceId;
         this.jsonFile = jsonFile;
         this.serviceName = serviceName;
         this.serviceUrl = serviceUrl;
+        this.published = published;
     }
 
     public Service(
@@ -76,7 +81,17 @@ public class Service implements Serializable {
         this.serviceUrl = serviceUrl;
     }
 
+    @Column(name = "published")
+    public Integer getPublished() {
+        return published;
+    }
+
+    public void setPublished(Integer published) {
+        this.published = published;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "group_service",
             joinColumns = {@JoinColumn(name = "serviceId")},
@@ -91,21 +106,13 @@ public class Service implements Serializable {
 
     @Override
     public String toString() {
-        return "Service{"
-                + "serviceId='"
-                + serviceId
-                + '\''
-                + ", jsonFile='"
-                + jsonFile
-                + '\''
-                + ", serviceName='"
-                + serviceName
-                + '\''
-                + ", serviceUrl='"
-                + serviceUrl
-                + '\''
-                + ", groups="
-                + groups.size()
-                + '}';
+        return "Service{" +
+                "serviceId='" + serviceId + '\'' +
+                ", jsonFile='" + jsonFile + '\'' +
+                ", serviceName='" + serviceName + '\'' +
+                ", serviceUrl='" + serviceUrl + '\'' +
+                ", published=" + published +
+                ", groups=" + groups.size() +
+                '}';
     }
 }
