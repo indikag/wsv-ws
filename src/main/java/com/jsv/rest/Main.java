@@ -9,6 +9,7 @@ import com.jsv.rest.persistance.User;
 import com.jsv.rest.util.IdGenerator;
 
 import java.util.*;
+import java.util.logging.Level;
 
 /*
  * UserEntity: Indika Gunawardana
@@ -23,6 +24,10 @@ public class Main {
     static String serviceId = "0e30d539-b459-4635-8400-fefa0b61fde9";
 
     public static void main(final String[] args) throws Exception {
+        @SuppressWarnings("unused")
+        org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.ALL); //or whatever level you need
+
         // addUser();
         // getUser();
         // addGroup();
@@ -36,7 +41,18 @@ public class Main {
         //getUserByUserId();
         //getServicesForGroup();
         //checkSet();
-        getGroupsByUserId();
+        //getGroupsByUserId();
+        deleteService("1-s");
+
+    }
+
+    static void deleteService(String serviceId) {
+        try {
+            ServiceDAL.deleteService(serviceId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     static void getGroupsByUserId() {
