@@ -132,6 +132,41 @@ public class ServiceWS {
         return response.build();
     }
 
+    @GET
+    @Path("publish")
+    public void publish(@QueryParam("id") String id) {
+        Log.log("Start publish");
+        // Body
+        try {
+            ServiceDAL.publishUnpublishService(id, true);
+            response.setStatus(Status.SUCCESS);
+            response.setPayload(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(false);
+        }
+
+        Log.log("End publish");
+    }
+
+    @GET
+    @Path("unpublish")
+    public void unpublish(@QueryParam("id") String id) {
+        Log.log("Start unpublish");
+        // Body
+        try {
+            ServiceDAL.publishUnpublishService(id, false);
+            response.setStatus(Status.SUCCESS);
+            response.setPayload(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(false);
+        }
+        Log.log("End unpublish");
+    }
+
     @POST
     @Path("assign")
     public void assignGroup() {
