@@ -83,6 +83,6 @@ public class ServiceModel {
         this.setServiceName(serviceEntity.getServiceName());
         this.setServiceUrl(serviceEntity.getServiceUrl());
         this.setJsonFile(serviceEntity.getJsonFile());
-        this.setPublished((serviceEntity.getPublished() == 1)? true: false);
+        this.setPublished(serviceEntity.getPublished());
     }
 }
