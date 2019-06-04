@@ -91,7 +91,7 @@ public class Service implements Serializable {
         this.published = published;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "group_service",
