@@ -57,7 +57,7 @@ public class Group implements Serializable {
         this.groupName = groupName;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "group_service",
@@ -71,7 +71,7 @@ public class Group implements Serializable {
         this.services = services;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "user_group",
@@ -95,9 +95,9 @@ public class Group implements Serializable {
                 + groupName
                 + '\''
                 + ", services="
-                + services.size()
+                + "0"
                 + ", users="
-                + users.size()
+                + "0"
                 + '}';
     }
 }

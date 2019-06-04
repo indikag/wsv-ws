@@ -69,7 +69,7 @@ public class User implements Serializable {
 
     //@Transient this can also be used
     //@JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "user_group",
@@ -101,6 +101,9 @@ public class User implements Serializable {
     }
 
     private String groups(Set<Group> groups) {
+        if (groups == null) {
+            return "null";
+        }
         Iterator<Group> iterator = groups.iterator();
         String value = "";
         while (iterator.hasNext()) {
