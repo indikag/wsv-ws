@@ -7,9 +7,11 @@ import com.jsv.rest.model.ServiceModel;
 import com.jsv.rest.persistance.Group;
 import com.jsv.rest.persistance.Service;
 import com.jsv.rest.persistance.User;
+import com.jsv.rest.util.IdGenerator;
 import com.jsv.rest.util.Log;
 import com.jsv.rest.util.Response;
 import com.jsv.rest.util.Status;
+import sun.security.x509.UniqueIdentity;
 
 import javax.ws.rs.*;
 import java.util.ArrayList;
@@ -68,6 +70,8 @@ public class ServiceWS {
 
         // Body
         try {
+            //Generate service id
+            service.setServiceId(IdGenerator.generate());
             //Assigning user group information
             Group group = GroupDAL.getGroupByGroupId(groupId);
             Set<Group> groups = new HashSet<Group>();
@@ -93,6 +97,8 @@ public class ServiceWS {
         Log.log("Start getServiceByUserId");
         try {
             Service service = ServiceDAL.getServiceByServiceId(id);
+            service.setGroups(null);
+
             response.setStatus(Status.SUCCESS);
             response.setPayload(service);
         } catch (Exception e) {
@@ -105,11 +111,26 @@ public class ServiceWS {
 
     @POST
     @Path("update")
-    public void updateService() {
+    public javax.ws.rs.core.Response updateService(Service service) {
         Log.log("Start updateService");
         // Body
+        if (service == null) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload("Empty request");
+        }
+
+        try {
+            ServiceDAL.updateService(service);
+
+            response.setStatus(Status.SUCCESS);
+            response.setPayload(service);
+        } catch (Exception e) {
+            response.setStatus(Status.APPLICATION_ERROR);
+            response.setPayload(null);
+        }
 
         Log.log("End updateService");
+        return response.build();
     }
 
     @GET
