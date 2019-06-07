@@ -92,7 +92,7 @@ public class Service implements Serializable {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
-    @Fetch(FetchMode.SELECT)
+    //@Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "group_service",
             joinColumns = {@JoinColumn(name = "serviceId")},
