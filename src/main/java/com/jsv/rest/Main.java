@@ -19,14 +19,14 @@ import java.util.logging.Level;
  */
 
 public class Main {
-    static String userId = "602d29e8-b331-4840-b53f-28676469b940";
+    static String userId = "1";
     static String groupId = "1b108fb4-2ed6-45d9-ba2c-1849f474d67f";
-    static String serviceId = "0e30d539-b459-4635-8400-fefa0b61fde9";
+    static String serviceId = "82b8bd37-6c5c-4203-8239-4ed8e73f9c86";
 
     public static void main(final String[] args) throws Exception {
         @SuppressWarnings("unused")
         org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
-        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.ALL); //or whatever level you need
+        //java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.ALL); //or whatever level you need
 
         // addUser();
         // getUser();
@@ -43,7 +43,47 @@ public class Main {
         //checkSet();
         //getGroupsByUserId();
         //deleteService("1-s");
-        publish();
+        //publish();
+
+        updateService();
+    }
+
+    static void updateService() {
+        try {
+            //Service s = ServiceDAL.getServiceByServiceId("8bf536fd-0071-45b9-9a04-6f2579503dee");
+            //s.setServiceName("Campus1");
+
+            Service s2 = new Service();
+            s2.setServiceName("Campus 2");
+            s2.setGroups(null);
+            s2.setServiceId("8bf536fd-0071-45b9-9a04-6f2579503dee");
+            s2.setPublished(true);
+            s2.setJsonFile("json file");
+            s2.setServiceUrl("http://wwww/google.lk");
+
+            ServiceDAL.updateService(s2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void addService() {
+        Service service = new Service();
+        service.setServiceId(IdGenerator.generate());
+        service.setJsonFile("path to the file");
+        service.setServiceName("test_service_1");
+        service.setServiceUrl("http://localhost:8080/wsv");
+        service.setPublished(false);
+
+        Group g1 = new Group("1-g", "group-1", null, null);
+        service.getGroups().add(g1);
+
+        System.out.println(service.toString());
+        try {
+            ServiceDAL.addService(service);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
@@ -80,8 +120,8 @@ public class Main {
     static void getServicesForGroup() throws Exception {
         Group group = GroupDAL.getGroupByGroupId(groupId);
         Set<Service> services = group.getServices();
-        for (Service s:
-             services) {
+        for (Service s :
+                services) {
             System.out.println(s.toString());
         }
     }
@@ -98,7 +138,7 @@ public class Main {
 
     static void addSampleServicesToUser() {
         ArrayList<String> idList = new ArrayList<String>();
-        for (int a =0; a< 5; a++) {
+        for (int a = 0; a < 5; a++) {
             String id = IdGenerator.generate();
             idList.add(id);
 
@@ -140,24 +180,11 @@ public class Main {
     /*
     COMPLETED BASIC OPERATIONS OF ALL CLASSES
      */
+
     private static void getService() {
         try {
             Service service = ServiceDAL.getServiceByServiceId(serviceId);
             System.out.println(service.toString());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private static void addService() {
-        Service service = new Service();
-        service.setServiceId(IdGenerator.generate());
-        service.setJsonFile("path to the file");
-        service.setServiceName("test_service_1");
-        service.setServiceUrl("http://localhost:8080/wsv");
-
-        try {
-            ServiceDAL.addService(service);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
