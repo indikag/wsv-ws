@@ -120,6 +120,11 @@ public class ServiceWS {
         }
 
         try {
+            //get the group
+            Set<Group> groups = ServiceDAL.getServiceByServiceId(service.getServiceId()).getGroups();
+            service.setGroups(groups);
+
+            //update the new data
             ServiceDAL.updateService(service);
 
             response.setStatus(Status.SUCCESS);
