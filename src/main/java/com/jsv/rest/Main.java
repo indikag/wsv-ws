@@ -53,10 +53,14 @@ public class Main {
             //Service s = ServiceDAL.getServiceByServiceId("8bf536fd-0071-45b9-9a04-6f2579503dee");
             //s.setServiceName("Campus1");
 
+            Group group = GroupDAL.getGroupByGroupId("1-g");
+            Set<Group> gSet = new HashSet<Group>();
+            gSet.add(group);
+
             Service s2 = new Service();
-            s2.setServiceName("Campus 2");
-            s2.setGroups(null);
-            s2.setServiceId("8bf536fd-0071-45b9-9a04-6f2579503dee");
+            s2.setServiceName("Houston bay 4");
+            s2.setGroups(gSet);
+            s2.setServiceId("ffb6af07-d3fc-4599-bf14-fb5ee3669e1a");
             s2.setPublished(true);
             s2.setJsonFile("json file");
             s2.setServiceUrl("http://wwww/google.lk");
