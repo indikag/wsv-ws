@@ -8,6 +8,7 @@ package com.jsv.rest.dal;
 
 import com.jsv.rest.persistance.Service;
 import com.jsv.rest.util.SessionUtil;
+import com.jsv.rest.util.TokenGenerator;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -209,6 +210,11 @@ public class ServiceDAL {
 
             Service service = session.get(Service.class, serviceId);
             service.setPublished(publishStatus);
+            if (publishStatus) {
+                service.setToken(TokenGenerator.generateToken());
+            } else {
+                service.setToken(null);
+            }
             session.update(service);
 
             transaction.commit();
