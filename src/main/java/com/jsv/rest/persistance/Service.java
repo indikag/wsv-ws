@@ -23,6 +23,7 @@ public class Service implements Serializable {
     private String serviceName;
     private String serviceUrl;
     private Boolean published;
+    private String token;
     private Set<Group> groups = new HashSet<Group>(0);
 
     public Service() {
@@ -91,6 +92,15 @@ public class Service implements Serializable {
         this.published = published;
     }
 
+    @Column(name = "token")
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     //@Fetch(FetchMode.SELECT)
     @JoinTable(
@@ -113,6 +123,7 @@ public class Service implements Serializable {
                 ", serviceName='" + serviceName + '\'' +
                 ", serviceUrl='" + serviceUrl + '\'' +
                 ", published=" + published +
+                ", token=" + token +
                 ", groups=" + groupString(groups) +
                 '}';
     }
