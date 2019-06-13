@@ -223,6 +223,7 @@ public class ServiceDAL {
                 service.setServiceUrl(hostURL + token);
             } else {
                 service.setToken(null);
+                service.setServiceUrl(null);
             }
             session.update(service);
 
