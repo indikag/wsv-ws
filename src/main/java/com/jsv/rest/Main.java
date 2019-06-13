@@ -6,8 +6,13 @@ import com.jsv.rest.dal.UserDAL;
 import com.jsv.rest.persistance.Group;
 import com.jsv.rest.persistance.Service;
 import com.jsv.rest.persistance.User;
+import com.jsv.rest.util.ConfigProperty;
+import com.jsv.rest.util.Constants;
 import com.jsv.rest.util.IdGenerator;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -45,7 +50,11 @@ public class Main {
         //deleteService("1-s");
         //publish();
 
-        updateService();
+        //updateService();
+
+        ConfigProperty configProperty = ConfigProperty.getInstance();
+        String a = configProperty.readProperty(Constants.ConfigProperties.HOST_URL.getValue());
+        System.out.println(a);
     }
 
     static void updateService() {
