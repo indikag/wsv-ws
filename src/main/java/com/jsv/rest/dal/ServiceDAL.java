@@ -7,6 +7,8 @@ package com.jsv.rest.dal;
  */
 
 import com.jsv.rest.persistance.Service;
+import com.jsv.rest.util.ConfigProperty;
+import com.jsv.rest.util.Constants;
 import com.jsv.rest.util.SessionUtil;
 import com.jsv.rest.util.TokenGenerator;
 import org.hibernate.HibernateException;
@@ -17,6 +19,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class ServiceDAL {
+    private static ConfigProperty configProperty = ConfigProperty.getInstance();
     /**
      * Add a new user
      *
@@ -211,7 +214,13 @@ public class ServiceDAL {
             Service service = session.get(Service.class, serviceId);
             service.setPublished(publishStatus);
             if (publishStatus) {
-                service.setToken(TokenGenerator.generateToken());
+                String token = TokenGenerator.generateToken();
+                service.setToken(token);
+                String hostURL = configProperty.readProperty(Constants.ConfigProperties.HOST_URL.getValue());
+                if (hostURL == null) {
+                    throw new IllegalArgumentException("Cannot read the host url from the property file");
+                }
+                service.setServiceUrl(hostURL + token);
             } else {
                 service.setToken(null);
             }
