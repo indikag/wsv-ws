@@ -214,15 +214,17 @@ public class ServiceDAL {
             Service service = session.get(Service.class, serviceId);
             service.setPublished(publishStatus);
             if (publishStatus) {
-                String token = TokenGenerator.generateToken();
-                service.setToken(token);
+                if (service.getToken() == null) {
+                    String token = TokenGenerator.generateToken();
+                    service.setToken(token);
+                }
                 String hostURL = configProperty.readProperty(Constants.ConfigProperties.HOST_URL.getValue());
                 if (hostURL == null) {
                     throw new IllegalArgumentException("Cannot read the host url from the property file");
                 }
-                service.setServiceUrl(hostURL + token);
+                service.setServiceUrl(hostURL + service.getToken());
             } else {
-                service.setToken(null);
+                //service.setToken(null);
                 service.setServiceUrl(null);
             }
             session.update(service);
